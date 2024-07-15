@@ -37,8 +37,12 @@ const userRegisteration = asyncHandler(async (req, res) => {
 const authUser = asyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 	const userExists = await User.findOne({ email });
-	console.log("the userExists in login", userExists);
-	if (userExists && userExists.matchPassword(password)) {
+	if (!userExists) {
+		res.status(400);
+		throw new Error("User Not Found!");
+	}
+	const isPasswordMatch = await userExists.matchPassword(password);
+	if (userExists && isPasswordMatch) {
 		res.status(201).json({
 			_id: userExists._id,
 			name: userExists.name,
@@ -48,7 +52,7 @@ const authUser = asyncHandler(async (req, res) => {
 		});
 	} else {
 		res.status(400);
-		throw new Error("Error in creating User.");
+		throw new Error("Error in Authorizing User.");
 	}
 });
 
