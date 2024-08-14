@@ -48,6 +48,14 @@ io.on("connection", (socket) => {
 		console.log("User joined room", room);
 	});
 
+	socket.on("start typing", (room) => {
+		socket.in(room).emit("start typing");
+	});
+
+	socket.on("stop typing", (room) => {
+		socket.in(room).emit("stop typing");
+	});
+
 	socket.on("new message", (newMessageReceived) => {
 		var chat = newMessageReceived.chat; // this socket is for new message to be received from client.
 		console.log("on new Message", newMessageReceived);
@@ -57,5 +65,10 @@ io.on("connection", (socket) => {
 			if (user._id === newMessageReceived.sender._id) return; // broadcast new received messages to room except sender of the message.
 			socket.in(user._id).emit("message receieved", newMessageReceived);
 		});
+	});
+
+	socket.off("setup", () => {
+		console.log("User Disconnected!!!"); // Disconnnected from socket to make sure to save the unecessary bandwidth.
+		socket.leave(userData._id);
 	});
 });
