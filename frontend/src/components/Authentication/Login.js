@@ -43,13 +43,13 @@ const Login = () => {
 			);
 
 			toast({
-				title: "Data Submitted Successfully",
+				title: "Login Successfully",
 				status: "success",
-				duration: 5000,
+				duration: 2000,
 				isClosable: true,
 				position: "bottom",
 			});
-			console.log("the data after login:", data);
+
 			localStorage.setItem("userInfo", JSON.stringify(data));
 			setLoading(false);
 			history.push("/chats");
@@ -58,7 +58,7 @@ const Login = () => {
 			toast({
 				title: "Invalid Username or password",
 				status: "error",
-				duration: 5000,
+				duration: 4000,
 				isClosable: true,
 				position: "bottom",
 			});

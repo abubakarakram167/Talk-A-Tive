@@ -3,11 +3,16 @@ import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 // import "./styles.css";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
-import { getSender, getSenderFull } from "../config/ChatLogics";
+import {
+	getSender,
+	getSenderFull,
+	getReceiverUserPic,
+} from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
+import { Avatar } from "@chakra-ui/avatar";
 
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
@@ -135,9 +140,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 	useEffect(() => {
 		socket.on("message receieved", (messageReceieved) => {
-			console.log("the selected chat", selectedChatCompare);
-			console.log("the new message", messageReceieved);
-			console.log("the notificationss...", notification);
 			if (
 				!selectedChatCompare ||
 				selectedChatCompare._id !== messageReceieved.chat._id
@@ -188,17 +190,28 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 					>
 						<IconButton
 							display={{ base: "flex", md: "none" }}
-							justifyContent={"center"}
+							justifyContent={{ base: "none", md: "center" }}
 							icon={<ArrowBackIcon />}
 							onClick={() => setSelectedChat("")}
 						/>
 						{!selectedChat.isGroupChat ? (
 							<>
-								{getSender(user, selectedChat.users)}
+								<Box display={"flex"} justifyContent={"space-around"}>
+									<Avatar
+										name={getSender(user, selectedChat.users)}
+										src={getReceiverUserPic(user, selectedChat.users)}
+									/>
+									<span style={{ marginLeft: 10 }}>
+										{" "}
+										{getSender(user, selectedChat.users)}{" "}
+									</span>
+								</Box>
+
 								<ProfileModal user={getSenderFull(user, selectedChat.users)} />
 							</>
 						) : (
 							<>
+								<Avatar name={selectedChat.chatName} />
 								{selectedChat.chatName.toUpperCase()}
 								<UpdateGroupChatModal
 									fetchMessages={fetchMessages}

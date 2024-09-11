@@ -5,8 +5,9 @@ import axios from "axios";
 import { Box, Button, Stack, Text } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
-import { getSender } from "../config/ChatLogics";
+import { getSender, getReceiverUserPic } from "../config/ChatLogics";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
+import { Avatar } from "@chakra-ui/avatar";
 
 const MyChats = () => {
 	const { user, chats, selectedChat, setSelectedChat, setChats } = ChatState();
@@ -95,12 +96,25 @@ const MyChats = () => {
 									cursor="pointer"
 									bg={selectedChat === chat._id ? "#38B2AC" : "#E8E8E8"}
 									color={selectedChat === chat._id ? "white" : "black"}
+									display={"flex"}
 									px={3}
 									py={2}
 									borderRadius="lg"
 									key={chat._id}
 								>
-									<Text>
+									<Avatar
+										name={
+											!chat.isGroupChat
+												? getSender(loggedUser, chat.users)
+												: chat.chatName
+										}
+										src={
+											!chat.isGroupChat
+												? getReceiverUserPic(loggedUser, chat.users)
+												: ""
+										}
+									/>
+									<Text style={{ paddingLeft: 10, paddingTop: 10 }}>
 										{!chat.isGroupChat
 											? getSender(loggedUser, chat.users)
 											: chat.chatName}

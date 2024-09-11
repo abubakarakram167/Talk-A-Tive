@@ -33,14 +33,13 @@ const accessChat = asyncHandler(async (req, res) => {
 		};
 		try {
 			const createdChat = await Chat.create(chatData);
-
-			const fullChat = Chat.findOne({ _id: createdChat._id }).populate(
+			const fullChat = await Chat.findOne({ _id: createdChat._id }).populate(
 				"users",
 				"-password"
 			);
+
 			res.status(200).send(fullChat);
 		} catch (error) {
-			console.log("the error", error);
 			res.status(400);
 			throw new Error("Error in Creating Chat");
 		}

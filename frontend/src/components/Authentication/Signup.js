@@ -46,16 +46,18 @@ const Signup = () => {
 			);
 
 			toast({
-				title: "Data Submitted Successfully",
+				title: "SignUp Successfully",
 				status: "success",
-				duration: 5000,
+				duration: 3000,
 				isClosable: true,
 				position: "bottom",
 			});
 			console.log("the data after submitting:", data);
 			localStorage.setItem("userInfo", JSON.stringify(data));
 			setPicLoading(false);
-			history.push("/chats");
+			setTimeout(() => {
+				history.push("/chats");
+			}, 1000);
 		} catch (err) {
 			toast({
 				title: "Error Happened",
