@@ -107,11 +107,11 @@ const Login = () => {
 				width="100%"
 				style={{ marginTop: 15 }}
 				onClick={() => {
-					setEmail("asbd@gmail.com");
-					setPassword("some12235#@!");
+					setEmail("visitor2024@gmail.com");
+					setPassword("visitor25#");
 				}}
 			>
-				Get User Credentials
+				Get Visitor Credentials
 			</Button>
 		</VStack>
 	);
